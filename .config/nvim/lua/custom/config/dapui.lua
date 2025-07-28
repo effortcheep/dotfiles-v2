@@ -1,10 +1,11 @@
+local custom_utils = require 'custom.utils'
 -- UI responsiveness
 local dap, dapui = require 'dap', require 'dapui'
 dap.listeners.before.attach.dapui_config = function()
-  dapui.open()
+  dapui.open({reset = true})
 end
 dap.listeners.before.launch.dapui_config = function()
-  dapui.open()
+  dapui.open({reset = true})
 end
 dap.listeners.before.event_terminated.dapui_config = function()
   dapui.close()
@@ -46,7 +47,10 @@ vim.fn.sign_define(
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
 -- keymaps
-vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'DAP: Toggle UI' })
+vim.keymap.set('n', '<leader>du', function ()
+ dapui.toggle({reset = true})
+ custom_utils.reset_overseerlist_width()
+end, { desc = 'DAP: Toggle UI' })
 vim.keymap.set('n', '<leader>ds', dap.continue, { desc = ' Start/Continue' })
 vim.keymap.set('n', '<F1>', dap.continue, { desc = ' Start/Continue' })
 vim.keymap.set('n', '<leader>di', dap.step_into, { desc = ' Step into' })
