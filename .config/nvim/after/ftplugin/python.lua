@@ -1,2 +1,2 @@
-vim.lsp.enable 'pylsp'
-vim.lsp.enable 'ruff'
+-- vim.lsp.enable 'pylsp'
+-- vim.lsp.enable 'ruff'

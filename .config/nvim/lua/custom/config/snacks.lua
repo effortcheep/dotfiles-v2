@@ -59,7 +59,7 @@ require('snacks').setup {
   indent = {
     indent = { enabled = false },
     animate = { duration = { step = 10, duration = 100 } },
-    scope = { enabled = true, char = '┊', underline = false, only_current = true, priority = 1000 },
+    -- scope = { enabled = true, char = '|', underline = false, only_current = true, priority = 1000 },
   },
   statuscolumn = {
     left = { 'mark', 'git' },

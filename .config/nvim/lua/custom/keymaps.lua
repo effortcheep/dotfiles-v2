@@ -1,4 +1,7 @@
 local custom_pickers = require 'custom.pickers'
+vim.keymap.set('n', ',w', ':w<cr>', { noremap = true, silent = true })
+vim.keymap.set('i', ',w', '<esc>:w<cr>', { noremap = true, silent = true })
+
 vim.keymap.set('i', 'jk', '<esc>', { noremap = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = 'Move cursor down' })
 vim.keymap.set('x', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = 'Move cursor down' })

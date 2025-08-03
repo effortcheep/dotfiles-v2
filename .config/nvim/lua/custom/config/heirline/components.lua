@@ -508,15 +508,60 @@ M.ShowCmd = {
   provider = '%3.5(%S%)',
 }
 
+-- M.SearchOccurrence = {
+--   condition = function()
+--     return vim.v.hlsearch == 1
+--   end,
+--   hl = { fg = palette.sky },
+--   provider = function()
+--     local sinfo = vim.fn.searchcount { maxcount = 0 }
+--     local search_stat = sinfo.incomplete > 0 and ' [?/?]' or sinfo.total > 0 and (' [%s/%s]'):format(sinfo.current, sinfo.total) or ''
+--     return search_stat
+--   end,
+-- }
+
+-- M.SearchOccurrence = {
+--   condition = function()
+--     return vim.v.hlsearch == 1
+--   end,
+--   hl = { fg = palette.sky },
+--   provider = function()
+--     local ok, sinfo = pcall(vim.fn.searchcount, { maxcount = 0 })
+--     if not ok or not sinfo then return "" end
+
+--     if sinfo.incomplete == 1 then  -- 搜索不完整
+--       return " [?/?]"
+--     elseif sinfo.total > 0 then    -- 有匹配结果
+--       return string.format(" [%d/%d]", sinfo.current, sinfo.total)
+--     else                           -- 无匹配
+--       return " [0/0]"
+--     end
+--   end,
+-- }
+
 M.SearchOccurrence = {
   condition = function()
     return vim.v.hlsearch == 1
   end,
   hl = { fg = palette.sky },
   provider = function()
-    local sinfo = vim.fn.searchcount { maxcount = 0 }
-    local search_stat = sinfo.incomplete > 0 and ' [?/?]' or sinfo.total > 0 and (' [%s/%s]'):format(sinfo.current, sinfo.total) or ''
-    return search_stat
+    local ok, sinfo = pcall(vim.fn.searchcount, { maxcount = 0, recompute = 1 })
+    if not ok or not sinfo or type(sinfo) ~= "table" then
+      return ""
+    end
+
+    -- 确保所有必要字段都存在，否则提供默认值
+    sinfo.current = sinfo.current or 0
+    sinfo.total = sinfo.total or 0
+    sinfo.incomplete = sinfo.incomplete or 0
+
+    if sinfo.incomplete == 1 then
+      return " [?/?]"
+    elseif sinfo.total > 0 then
+      return string.format(" [%d/%d]", sinfo.current, sinfo.total)
+    else
+      return " [0/0]"
+    end
   end,
 }
 
